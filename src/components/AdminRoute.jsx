@@ -4,13 +4,16 @@ import { Navigate } from "react-router-dom";
 
 function AdminRoute({ children }) {
     
-    const { user }  = useContext(AuthContext)
+    const { user, loading }  = useContext(AuthContext)
 
+    if(loading) {
+        return <div>Loading...</div>;
+    }
     if (!user) {
          return <Navigate to="/login" />;
     }
 
-    if (!user || user.role !== 'admin') {
+    if (!user || user.role !== 'ADMIN') {
         return <Navigate to="/" />;
     }
 

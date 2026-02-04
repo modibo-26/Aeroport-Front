@@ -1,16 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { TextField, Button, Box, Typography} from '@mui/material'
 
 function Login() {
 
     const navigate = useNavigate();
 
-    const { handleLogin } = use(AuthContext);
+    const { user, handleLogin } = use(AuthContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user, navigate]);
     
 
     const handleSubmit = async (e) => {
@@ -25,8 +31,6 @@ function Login() {
             console.error("Login error:", error);
         }
     }
-
-
 
     return (
         <Box sx={{ maxWidth: 400, mx: 'auto', mt: 8 }}>
