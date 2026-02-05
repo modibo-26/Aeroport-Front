@@ -5,12 +5,9 @@ import AccessTime from '@mui/icons-material/AccessTime';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale/fr';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
 
 function VolCard({ vol }) {
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext)
 
     const getStatutColor = (statut) => {
         switch (statut) {

@@ -28,7 +28,6 @@ function VolDetails() {
 
     useEffect(() => {
         fetchVolById(id).then(response => {
-            console.log(response.data);
             setVol(response.data);
         }).catch(error => {
             console.error("Error fetching vol details:", error);
@@ -52,7 +51,9 @@ function VolDetails() {
 
     const handleConfirmReservation = async () => {
         try {
+            console.log(vol.placesDisponibles)
             await createReservation({volId : vol.id, passagerId : user.id, nombrePlaces})
+            console.log(vol.placesDisponibles)
             setOpen(false)
             showSnackbar('Vol réservé avec succès !', 'success');
             navigate('/user/reservations')
@@ -204,23 +205,23 @@ function VolDetails() {
                             vol.placesDisponibles === 0 ? 'Complet' : 'Réserver'}
                         </Button>
                         {user?.role === 'ADMIN' && (
-                        <>
-                            <Button variant="outlined" onClick={handleOpenEdit}>
-                                Modifier
-                            </Button>
-                            <Button variant="outlined" onClick={handleOpenReservations}>
-                                Réservations
-                            </Button>
-                            <FormControl size="small" sx={{ minWidth: 120}}>
-                                <Select
-                                    value={vol.statut} onChange={(e) => handleStatutChange(e.target.value)}
-                                >
-                                    <MenuItem value="A_L_HEURE">À l'heure</MenuItem>
-                                    <MenuItem value="RETARDE">Rétardé</MenuItem>
-                                    <MenuItem value="ANNULE">Annulé</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </>
+                            <>
+                                <Button variant="outlined" onClick={handleOpenEdit}>
+                                    Modifier
+                                </Button>
+                                <Button variant="outlined" onClick={handleOpenReservations}>
+                                    Réservations
+                                </Button>
+                                <FormControl size="small" sx={{ minWidth: 120}}>
+                                    <Select
+                                        value={vol.statut} onChange={(e) => handleStatutChange(e.target.value)}
+                                    >
+                                        <MenuItem value="A_L_HEURE">À l'heure</MenuItem>
+                                        <MenuItem value="RETARDE">Rétardé</MenuItem>
+                                        <MenuItem value="ANNULE">Annulé</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </>
                         )}
                     </Box>
 

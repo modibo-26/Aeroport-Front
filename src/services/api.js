@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logout } from "./authService";
 
 const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000/",
@@ -27,6 +28,11 @@ API.interceptors.response.use(
     (error) => {
         if (error.response && error.response.status === 401) {
             // Unauthorized, redirect to login
+            try {
+                logout();
+            } catch (error) {
+                console.error("Logout failed", error);
+            }
             window.location.href = "/login";
         }
         return Promise.reject(error);

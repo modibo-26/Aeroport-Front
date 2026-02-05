@@ -21,18 +21,25 @@ function Navbar() {
 
 
     useEffect(() => {
-        if (user) {
-            fetchNotificationByPassager(user.id)
-                .then(async (res) => {
-                    setNotifications(res.data);
-                    
-                    const volIds = [...new Set(res.data.map(n => n.volId).filter(id => id))];
-                    const volsData = await Promise.all(volIds.map(id => fetchVolById(id)));
-                    const volsMap = {};
-                    volsData.forEach(v => volsMap[v.data.id] = v.data);
-                    setVols(volsMap);
-                });
-        }
+        const fetchData = () => {
+            if (user) {
+                fetchNotificationByPassager(user.id)
+                    .then(async (res) => {
+                        setNotifications(res.data);
+                        
+                        const volIds = [...new Set(res.data.map(n => n.volId).filter(id => id))];
+                        const volsData = await Promise.all(volIds.map(id => fetchVolById(id)));
+                        const volsMap = {};
+                        volsData.forEach(v => volsMap[v.data.id] = v.data);
+                        setVols(volsMap);
+                    });
+            }
+        };
+
+        fetchData(); 
+        const interval = setInterval(fetchData, 5000);
+
+        return () => clearInterval(interval);
     }, [user]);
 
     const handleMarkAsRead = async (id) => {
