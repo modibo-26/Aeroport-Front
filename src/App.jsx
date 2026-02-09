@@ -38,8 +38,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </SnackbarProvider>
-    </AuthProvider>
-      
+    </AuthProvider>  
   );
 }
 
