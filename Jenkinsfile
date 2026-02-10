@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build --build-arg REACT_APP_API_URL=http://51.20.106.131:8080 -t aeroport-frontend .'
+                sh 'docker build --build-arg REACT_APP_API_URL=http://13.62.224.45:8080 -t aeroport-frontend .'
             }
         }
         stage('Push to Hub') {
