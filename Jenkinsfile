@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Build & Push') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                     sh "docker build --build-arg REACT_APP_API_URL=http://${AWS_IP}:8080 -t ${DOCKER_HUB}/aeroport-frontend:v1 ."
                     sh "docker push ${DOCKER_HUB}/aeroport-frontend:v1"
