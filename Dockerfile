@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-ARG REACT_APP_API_URL=http://localhost:8080
+ARG REACT_APP_API_URL=/
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN echo "REACT_APP_API_URL=$REACT_APP_API_URL" > .env
 
