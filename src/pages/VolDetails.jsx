@@ -350,7 +350,7 @@ function VolDetails() {
                                     {reservations.map(r => (
                                         <TableRow key={r.id}>
                                             <TableCell>{r.id}</TableCell>
-                                            <TableCell>{r.passagerId}</TableCell>
+                                            <TableCell>{r.email}</TableCell>
                                             <TableCell>{r.nombrePlaces}</TableCell>
                                             <TableCell>{r.statut}</TableCell>
                                             <TableCell>{format(new Date(r.dateReservation), 'dd/MM/yyyy HH:mm', { locale: fr })}</TableCell>
