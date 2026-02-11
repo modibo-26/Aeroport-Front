@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/modibo-26/Aeroport-Front.git'
+                git branch: 'master', url: 'https://github.com/modibo-26/Aeroport-Front.git'
             }
         }
         stage('Build & Push') {
