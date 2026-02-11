@@ -4,7 +4,7 @@ pipeline {
         githubPush()
     }
     environment {
-        AWS_IP = '51.20.69.79'
+        AWS_IP = '13.62.225.210'
         DOCKER_HUB = 'moboks'
     }
     stages {
@@ -28,6 +28,8 @@ pipeline {
                     sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} '
                             docker pull ${DOCKER_HUB}/aeroport-frontend:v1 &&
+                            docker stop ubuntu_frontend_1 || true &&
+                            docker rm ubuntu_frontend_1 || true &&
                             docker stop aeroport-frontend || true &&
                             docker rm aeroport-frontend || true &&
                             docker run -d --name aeroport-frontend -p 3000:80 ${DOCKER_HUB}/aeroport-frontend:v1
