@@ -4,3 +4,10 @@ services:
       context: .
     ports:
       - "3000:80"
+    networks:
+      - aeroport-network
+
+networks:
+  aeroport-network:
+    external: true
+    name: aeroport_aeroport-network
