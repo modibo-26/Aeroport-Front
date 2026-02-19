@@ -1,7 +1,6 @@
 services:
   frontend:
-    build:
-      context: .
+    image: moboks/aeroport-frontend:v1
     ports:
       - "3000:80"
     networks:
@@ -9,3 +8,5 @@ services:
 
 networks:
   aeroport-network:
+    external: true
+    name: ubuntu_aeroport-network
