@@ -28,9 +28,11 @@ pipeline {
                     sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} '
                             docker pull ${DOCKER_HUB}/aeroport-frontend:v1 &&
+                            docker stop ubuntu_frontend_1 || true &&
+                            docker rm ubuntu_frontend_1 || true &&
                             docker stop aeroport-frontend || true &&
                             docker rm aeroport-frontend || true &&
-                            docker run -d --name aeroport-frontend --network ubuntu_aeroport-network -p 3000:80 ${DOCKER_HUB}/aeroport-frontend:v1
+                            docker run -d --name aeroport-frontend -p 3000:80 ${DOCKER_HUB}/aeroport-frontend:v1
                         '
                     """
                 }
