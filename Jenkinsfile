@@ -26,6 +26,7 @@ pipeline {
             steps {
                 sshagent(['aws-ssh-key']) {
                     sh """
+                        ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} 'mkdir -p ~/frontend'
                         scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${AWS_IP}:~/frontend/docker-compose.yml
                         ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} '
                             cd ~/frontend &&
