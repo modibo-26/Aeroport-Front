@@ -10,4 +10,4 @@ services:
 networks:
   aeroport-network:
     external: true
-    name: aeroport-network
+    name: ubuntu_aeroport-network
