@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { annulerReservation, confirmReservation, fetchReservationsByPassager } from "../services/reservationService";
+import { annulerReservation, fetchReservationsByPassager } from "../services/reservationService";
+import { creerPaiement } from "../services/paiementService";
 import { Box } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
 import ReservationCard from "../components/ReservationCard";
@@ -44,10 +45,14 @@ function UserReservations() {
         showSnackbar('Réservation annulée !', 'success');
     };
 
-    const handleConfirmer = async (id) => {
-        await confirmReservation(id);
-        showSnackbar('Réservation confirmée !', 'success');
-        setReservations(refreshReservations(id, "CONFIRMEE"));
+    const handlePayer = async (reservationId, montant) => {
+        try {
+            const response = await creerPaiement(reservationId, user.id, montant);
+            window.location.href = response.data;
+        } catch (error) {
+            console.error("Erreur lors du paiement:", error);
+            showSnackbar('Erreur lors du paiement', 'error');
+        }
     };
 
     if (loading) {
@@ -62,7 +67,7 @@ function UserReservations() {
                 reservation={res} 
                 vol={vols[res.volId]}
                 onAnnuler={handleAnnuler}
-                onConfirmer={handleConfirmer}
+                onPayer={handlePayer}
             />
         ))}
     </Box>

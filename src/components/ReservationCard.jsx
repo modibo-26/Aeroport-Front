@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale/fr';
 import { ConfirmationNumber, FlightLand } from '@mui/icons-material';
 
-function ReservationCard({ reservation, vol, onAnnuler, onConfirmer }) {
+function ReservationCard({ reservation, vol, onAnnuler, onPayer }) {
     const getStatutColor = (statut) => {
         switch (statut) {
             case 'CONFIRMEE': return 'success';
@@ -86,16 +86,16 @@ function ReservationCard({ reservation, vol, onAnnuler, onConfirmer }) {
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     {reservation.statut === 'EN_ATTENTE' && (
                         <>
-                            <Button 
-                                variant="contained" 
+                            <Button
+                                variant="contained"
                                 color="success"
                                 fullWidth
-                                onClick={() => onConfirmer(reservation.id)}
+                                onClick={() => onPayer(reservation.id, vol.prixBase * reservation.nombrePlaces)}
                             >
-                                Confirmer
+                                Payer
                             </Button>
-                            <Button 
-                                variant="outlined" 
+                            <Button
+                                variant="outlined"
                                 color="error"
                                 fullWidth
                                 onClick={() => onAnnuler(reservation.id)}

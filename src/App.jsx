@@ -9,6 +9,8 @@ import VolReservations from './pages/VolReservations';
 import AdminVols from './pages/AdminVols';
 import UserNotifications from './pages/UserNotifications';
 import UserReservations from './pages/UserReservations';
+import PaiementSuccess from './pages/PaiementSuccess';
+import PaiementCancel from './pages/PaiementCancel';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import Navbar from './components/Navbar';
@@ -30,6 +32,8 @@ function App() {
             {/* Protected */}
             <Route path="/user/reservations" element={<ProtectedRoute><UserReservations /></ProtectedRoute>} />
             <Route path="/user/notifications" element={<ProtectedRoute><UserNotifications /></ProtectedRoute>} />
+            <Route path="/paiement/success" element={<ProtectedRoute><PaiementSuccess /></ProtectedRoute>} />
+            <Route path="/paiement/cancel" element={<ProtectedRoute><PaiementCancel /></ProtectedRoute>} />
             {/* Admin */}
             <Route path="/admin/vols" element={<AdminRoute><AdminVols /></AdminRoute>} />
             <Route path="/admin/vols/:id/reservations" element={<AdminRoute><VolReservations /></AdminRoute>} />

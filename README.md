@@ -29,8 +29,10 @@ src/
 │   ├── Register.jsx             # Formulaire d'inscription
 │   ├── Vols.jsx                 # Liste des vols (filtres, cards style aérien)
 │   ├── VolDetails.jsx           # Détails vol + réservation + admin (modifier/statut)
-│   ├── UserReservations.jsx     # Mes réservations (confirmer/annuler)
+│   ├── UserReservations.jsx     # Mes réservations (payer/annuler)
 │   ├── UserNotifications.jsx    # Mes notifications (marquer lue/supprimer)
+│   ├── PaiementSuccess.jsx      # Page confirmation après paiement Stripe
+│   ├── PaiementCancel.jsx       # Page annulation paiement Stripe
 │   ├── AdminVols.jsx            # CRUD admin des vols
 │   └── VolReservations.jsx      # Admin : réservations d'un vol
 ├── services/
@@ -38,7 +40,8 @@ src/
 │   ├── authService.js           # login, register, logout
 │   ├── volService.js            # CRUD vols + statut + places + destination
 │   ├── reservationService.js    # CRUD réservations + par passager/vol
-│   └── notificationService.js   # CRUD notifications + par passager/vol
+│   ├── notificationService.js   # CRUD notifications + par passager/vol
+│   └── paiementService.js       # Paiement Stripe (créer, consulter, rembourser)
 └── App.jsx                      # Routes + providers
 ```
 
@@ -100,7 +103,13 @@ Formulaires MUI (TextField, Button, Box). Redirection vers `/` après login, ver
 Liste des réservations du passager connecté avec :
 - Infos du vol associé (récupéré via `fetchVolById`)
 - Statut de la réservation (EN_ATTENTE, CONFIRMEE, ANNULEE)
-- Boutons Confirmer / Annuler
+- Bouton Payer (redirige vers Stripe Checkout) / Annuler
+
+### PaiementSuccess / PaiementCancel (protégées)
+
+Pages de retour après paiement Stripe :
+- **Success** : confirmation de paiement réussi, lien vers les réservations
+- **Cancel** : paiement annulé, lien vers les réservations
 
 ### UserNotifications (protégée)
 
@@ -172,6 +181,13 @@ const API = axios.create({
 | `deleteNotification` | DELETE | `/notifications/{id}` |
 | `fetchNotificationsByVol` | GET | `/notifications/vol/{volId}` |
 
+**paiementService.js** (microservice paiement — port 8085)
+| Fonction | Méthode | URL |
+|----------|---------|-----|
+| `creerPaiement` | POST | `/paiements?reservationId&passagerId&montant` |
+| `getPaiementByReservation` | GET | `/paiements/reservation/{reservationId}` |
+| `rembourserPaiement` | POST | `/paiements/{id}/rembourser` |
+
 ---
 
 ## Notifications (SnackbarContext)
@@ -192,6 +208,7 @@ showSnackbar("Erreur lors de la suppression", "error");
 
 - Node.js 18+
 - Backend Spring Boot lancé (Gateway sur port 8080)
+- Microservice paiement lancé (port 8085) — routé via le gateway
 
 ### Installation
 
