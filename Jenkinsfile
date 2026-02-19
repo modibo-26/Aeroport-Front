@@ -26,13 +26,12 @@ pipeline {
             steps {
                 sshagent(['aws-ssh-key']) {
                     sh """
+                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${AWS_IP}:~/frontend/docker-compose.yml
                         ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} '
+                            cd ~/frontend &&
                             docker pull ${DOCKER_HUB}/aeroport-frontend:v1 &&
-                            docker stop ubuntu_frontend_1 || true &&
-                            docker rm ubuntu_frontend_1 || true &&
-                            docker stop aeroport-frontend || true &&
-                            docker rm aeroport-frontend || true &&
-                            docker run -d --name aeroport-frontend --network aeroport-network -p 3000:80 ${DOCKER_HUB}/aeroport-frontend:v1
+                            docker-compose down || true &&
+                            docker-compose up -d
                         '
                     """
                 }
