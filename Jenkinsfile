@@ -26,9 +26,11 @@ pipeline {
             steps {
                 sshagent(['aws-ssh-key']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} '
-                            cd /home/ubuntu &&
+                        ssh -o StrictHostKeyChecking=no ubuntu@${AWS_IP} '                                                                                                                   
+                            cd /home/ubuntu &&                                                                                                                                               
                             docker-compose -f docker-compose.prod.yml pull frontend &&
+                            docker-compose -f docker-compose.prod.yml stop frontend &&
+                            docker-compose -f docker-compose.prod.yml rm -f frontend &&
                             docker-compose -f docker-compose.prod.yml up -d frontend
                         '
                     """
